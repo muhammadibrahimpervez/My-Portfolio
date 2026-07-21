@@ -1,0 +1,13 @@
+/* Personal project cards: replace decorative mockups until real screenshots are added. */
+.project-art{height:290px}
+.amazon .project-art{background:#e7e5df;color:#171817;padding:0}
+.spotify .project-art{background:#1e1f22;color:#f1f1ee;padding:0}
+.portfolio .project-art{background:#cbed4f;color:#111;padding:0}
+.project-mark{height:100%;padding:28px 30px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(0,0,0,.14)}
+.spotify .project-mark{border-color:rgba(255,255,255,.16)}
+.project-mark>span{font:10px 'DM Mono',monospace;letter-spacing:.12em}
+.project-mark h4{font-size:clamp(38px,5vw,70px);line-height:.9;letter-spacing:-.08em;margin:0;max-width:400px}
+.project-mark p{font:11px 'DM Mono',monospace;letter-spacing:.07em;text-transform:uppercase;margin:11px 0 0;opacity:.65}
+.project-mark b{position:absolute;right:30px;bottom:27px;font-size:28px;font-weight:400}
+.phone{display:inline-block;margin-top:17px;color:#1d2512;font:11px 'DM Mono',monospace;letter-spacing:.06em;text-decoration:none;border-bottom:1px solid #1d2512;padding-bottom:4px}
+@media(max-width:760px){.project-art{height:230px}.project-mark h4{font-size:42px}}
