@@ -3,6 +3,9 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 import './personal.css';
 import profile from '../Pictures/WhatsApp Image 2026-04-06 at 5.16.12 AM.jpeg';
+import amazonScreenshot from '../Pictures/amazon.png';
+import portfolioScreenshot from '../Pictures/portfolio.png';
+import spotifyScreenshot from '../Pictures/spotify.png';
 
 const Arrow = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>;
 const Spark = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l1.8 7.2L21 12l-7.2 1.8L12 21l-1.8-7.2L3 12l7.2-1.8L12 2Z"/></svg>;
@@ -20,6 +23,27 @@ function App() {
     };
     window.addEventListener('pointermove', move);
     return () => window.removeEventListener('pointermove', move);
+  }, []);
+
+  useEffect(() => {
+    const portrait = new Image();
+    portrait.src = profile;
+    portrait.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = 192;
+      const context = canvas.getContext('2d');
+      context.beginPath();
+      context.arc(96, 96, 96, 0, Math.PI * 2);
+      context.clip();
+      const sourceSize = Math.min(portrait.naturalWidth, portrait.naturalHeight);
+      const sourceX = (portrait.naturalWidth - sourceSize) / 2;
+      const sourceY = Math.max(0, portrait.naturalHeight * 0.04);
+      context.drawImage(portrait, sourceX, sourceY, sourceSize, sourceSize, 0, 0, 192, 192);
+      let favicon = document.querySelector('link[rel="icon"]');
+      if (!favicon) { favicon = document.createElement('link'); favicon.rel = 'icon'; document.head.appendChild(favicon); }
+      favicon.href = canvas.toDataURL('image/png');
+      favicon.type = 'image/png';
+    };
   }, []);
 
   const scrollTo = (id) => { document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' }); setMenu(false); };
@@ -55,9 +79,9 @@ function App() {
     <section id="work" className="work shell">
       <div className="section-head"><p className="eyebrow">01 / Selected work</p><h2>Built to feel<br/><em>memorable.</em></h2><p>Small details create the big picture. Here are a few projects where I put that belief into practice.</p></div>
       <div className="projects">
-        <Project className="amazon" number="01" title="Amazon Clone" type="E-commerce interface" caption="A frontend e-commerce practice project focused on familiar navigation, product discovery, and responsive layouts." tags={['React', 'CSS', 'Responsive']} art={<ProjectMark number="01" title="Amazon Clone" subtitle="E-commerce UI" />} />
-        <Project className="spotify" number="02" title="Spotify Clone" type="Music streaming interface" caption="A frontend music interface practice project built around a dark visual language and content-led layout." tags={['HTML', 'CSS', 'JavaScript']} art={<ProjectMark number="02" title="Spotify Clone" subtitle="Music interface" />} />
-        <Project className="portfolio" number="03" title="Personal Portfolio" type="Personal website" caption="This personal portfolio: a responsive home for my work, skills, and ways to get in touch." tags={['React', 'Tailwind CSS', 'JavaScript']} art={<ProjectMark number="03" title="Portfolio" subtitle="Personal website" />} />
+        <Project className="amazon" number="01" title="Amazon Clone" type="E-commerce interface" caption="A frontend e-commerce practice project focused on familiar navigation, product discovery, and responsive layouts." tags={['React', 'CSS', 'Responsive']} art={<img src={amazonScreenshot} alt="Screenshot of the Amazon Clone project" />} />
+        <Project className="spotify" number="02" title="Spotify Clone" type="Music streaming interface" caption="A frontend music interface practice project built around a dark visual language and content-led layout." tags={['HTML', 'CSS', 'JavaScript']} art={<img src={spotifyScreenshot} alt="Screenshot of the Spotify Clone project" />} />
+        <Project className="portfolio" number="03" title="Personal Portfolio" type="Personal website" caption="This personal portfolio: a responsive home for my work, skills, and ways to get in touch." tags={['React', 'Tailwind CSS', 'JavaScript']} art={<img src={portfolioScreenshot} alt="Screenshot of Muhammad Ibrahim Pervez's personal portfolio" />} />
       </div>
     </section>
 
@@ -70,7 +94,6 @@ function App() {
 }
 
 function Project({ className, number, title, type, caption, tags, art }) { return <article className={`project ${className}`}><div className="project-art">{art}<div className="art-no">{number}</div></div><div className="project-info"><div><p className="project-type">{type}</p><h3>{title}</h3></div><p className="project-caption">{caption}</p><div className="tags">{tags.map(t => <span key={t}>{t}</span>)}<button aria-label={`View ${title}`}><Arrow /></button></div></div></article> }
-function ProjectMark({ number, title, subtitle }) { return <div className="project-mark"><span>PROJECT / {number}</span><div><h4>{title}</h4><p>{subtitle}</p></div><b>↗</b></div> }
 function Skill({ n, name, detail }) { return <div className="skill"><span>{n}</span><h3>{name}</h3><p>{detail}</p><b>↗</b></div> }
 
 createRoot(document.getElementById('root')).render(<App />);
