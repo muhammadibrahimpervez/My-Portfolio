@@ -1,0 +1,20 @@
+/* Performance safeguards: visual depth without expensive repaint work. */
+.noise { display: none; }
+.sun { filter: none; will-change: transform; }
+.portrait-card, .project-art, .project-art img { will-change: transform; }
+.portrait-card { backface-visibility: hidden; }
+
+@media (pointer: coarse), (max-width: 760px) {
+  .portrait-card { transform: none !important; }
+  .sun { transform: none !important; }
+  .tag-one, .tag-two { animation: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}

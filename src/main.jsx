@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 import './personal.css';
+import './performance.css';
 import profile from '../Pictures/WhatsApp Image 2026-04-06 at 5.16.12 AM.jpeg';
 import amazonScreenshot from '../Pictures/amazon.png';
 import portfolioScreenshot from '../Pictures/portfolio.png';
@@ -15,14 +16,27 @@ function App() {
   const heroRef = useRef(null);
 
   useEffect(() => {
-    const move = (e) => {
-      const x = (e.clientX / window.innerWidth - .5) * 2;
-      const y = (e.clientY / window.innerHeight - .5) * 2;
-      document.documentElement.style.setProperty('--mx', x);
-      document.documentElement.style.setProperty('--my', y);
+    const finePointer = window.matchMedia('(pointer: fine)');
+    let frame = 0;
+    let latestX = 0;
+    let latestY = 0;
+
+    const update = () => {
+      frame = 0;
+      document.documentElement.style.setProperty('--mx', latestX);
+      document.documentElement.style.setProperty('--my', latestY);
     };
-    window.addEventListener('pointermove', move);
-    return () => window.removeEventListener('pointermove', move);
+    const move = (e) => {
+      if (!finePointer.matches) return;
+      latestX = (e.clientX / window.innerWidth - .5) * 2;
+      latestY = (e.clientY / window.innerHeight - .5) * 2;
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    window.addEventListener('pointermove', move, { passive: true });
+    return () => {
+      window.removeEventListener('pointermove', move);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
