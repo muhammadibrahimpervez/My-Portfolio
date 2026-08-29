@@ -39,27 +39,6 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    const portrait = new Image();
-    portrait.src = profile;
-    portrait.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = canvas.height = 192;
-      const context = canvas.getContext('2d');
-      context.beginPath();
-      context.arc(96, 96, 96, 0, Math.PI * 2);
-      context.clip();
-      const sourceSize = Math.min(portrait.naturalWidth, portrait.naturalHeight);
-      const sourceX = (portrait.naturalWidth - sourceSize) / 2;
-      const sourceY = Math.max(0, portrait.naturalHeight * 0.04);
-      context.drawImage(portrait, sourceX, sourceY, sourceSize, sourceSize, 0, 0, 192, 192);
-      let favicon = document.querySelector('link[rel="icon"]');
-      if (!favicon) { favicon = document.createElement('link'); favicon.rel = 'icon'; document.head.appendChild(favicon); }
-      favicon.href = canvas.toDataURL('image/png');
-      favicon.type = 'image/png';
-    };
-  }, []);
-
   const scrollTo = (id) => { document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' }); setMenu(false); };
   return <main>
     <div className="noise" />
